@@ -11,9 +11,10 @@ namespace CRUD_Alumnos.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Alumnos
     {
+        
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Apellidos { get; set; }

@@ -28,8 +28,32 @@ namespace CRUD_Alumnos.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Agregar(Alumnos alumnos) {
-            return View();
+
+            //Modelo Valido -> alumnos
+            if (!ModelState.IsValid) {
+                return View();
+            }
+
+            try {
+                using (AlumnosContext db = new AlumnosContext()) {//usar using para no dejar la conexion abierta
+
+                    alumnos.FechaRegistro = DateTime.Now;
+
+                    db.Alumnos.Add(alumnos);//Adicionar alumnos
+                    db.SaveChanges();//Guardar cambios
+
+                    return RedirectToAction("Index");
+                }
+            } catch (Exception error) {
+                //ModelState.AddModelError("", "Error al registrar Alumno -" + error.Message);
+                ModelState.AddModelError("", "Error al registrar Alumno");
+                return View();
+            }
+
+            
+            
         }
 
     }
