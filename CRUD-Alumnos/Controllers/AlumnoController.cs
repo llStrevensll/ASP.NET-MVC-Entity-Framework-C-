@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Windows.Forms;
 
 namespace CRUD_Alumnos.Controllers
 {
@@ -12,21 +13,33 @@ namespace CRUD_Alumnos.Controllers
         // GET: Alumno
         public ActionResult Index(){
 
-            //Conexion BD desde modelo
-            AlumnosContext db = new AlumnosContext();
+            try {
+                //Conexion BD desde modelo
+                using (var db = new AlumnosContext()) {
 
-            //Listar - a=> Expresión lambda
-            //Uso de LinQ
-            //List<Alumnos> listaAlumnos = db.Alumnos.Where(a => a.Edad > 18).ToList();
+                    //Listar - a=> Expresión lambda
+                    //Uso de LinQ
+                    //List<Alumnos> listaAlumnos = db.Alumnos.Where(a => a.Edad > 18).ToList();
 
-            return View(db.Alumnos.ToList());
+                    return View(db.Alumnos.ToList());
+                }
+            } catch (Exception error ) {
+                 MessageBox.Show(error.Message.ToString());
+                return View();
+
+
+            }
+            
+
+            
         }
-
+        //Get Alumnos
         [HttpGet]
         public ActionResult Agregar() {
             return View();
         }
 
+        //Post Alumnos - Agregar
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Agregar(Alumnos alumnos) {
@@ -54,6 +67,85 @@ namespace CRUD_Alumnos.Controllers
 
             
             
+        }
+
+        //Get Editar
+        [HttpGet]
+        public ActionResult Editar(int id) {
+            try {
+                using (var db = new AlumnosContext()) {
+
+                    //Alumnos alumno = db.Alumnos.Where(a => a.Id == id).FirstOrDefault();
+                    Alumnos alumnos = db.Alumnos.Find(id);//id debe ser unico, sino usar expresion de arriba
+                    return View(alumnos);
+                }
+            } catch (Exception error) {
+                    ModelState.AddModelError("", "Error al editar Alumno");
+                    return View();
+            }
+ 
+        }
+
+        //Post Editar
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Editar(Alumnos alumnoForm) {
+
+            if (!ModelState.IsValid) {
+                return View();
+            }
+            try {
+                using (var db = new AlumnosContext()) {
+
+                    Alumnos alumnoDB = db.Alumnos.Find(alumnoForm.Id);//Buscar id
+                    //Editar
+                    alumnoDB.Nombre = alumnoForm.Nombre;
+                    alumnoDB.Apellidos = alumnoForm.Apellidos;
+                    alumnoDB.Edad = alumnoForm.Edad;
+                    alumnoDB.Sexo = alumnoForm.Sexo;
+
+                    //Guardar y Redireccionar
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            } catch (Exception error) {
+                    ModelState.AddModelError("", "Error al editar Alumno");
+                    return View();
+            }
+   
+        }
+
+        public ActionResult DetallesAlumno(int id) {
+            try {
+                using (var db = new AlumnosContext()) {
+
+                    
+                    Alumnos alumnos = db.Alumnos.Find(id);
+                    return View(alumnos);
+
+                }
+            } catch (Exception error) {
+                ModelState.AddModelError("", "Error al editar Alumno");
+                return View();
+            }
+        }
+
+        public ActionResult EliminarAlumno(int id) {
+            try {
+                using (var db = new AlumnosContext()) {
+
+
+                    Alumnos alumnoForm = db.Alumnos.Find(id);
+                    db.Alumnos.Remove(alumnoForm);
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
+
+                }
+            } catch (Exception error) {
+                ModelState.AddModelError("", "Error al editar Alumno");
+                return View();
+            }
         }
 
     }
