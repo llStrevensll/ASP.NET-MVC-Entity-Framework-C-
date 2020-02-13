@@ -26,5 +26,6 @@ namespace CRUD_Alumnos.Models
         }
     
         public virtual DbSet<Alumnos> Alumnos { get; set; }
+        public virtual DbSet<Ciudad> Ciudad { get; set; }
     }
 }

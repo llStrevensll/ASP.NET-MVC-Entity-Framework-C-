@@ -6,7 +6,7 @@ using System.Web;
 
 namespace CRUD_Alumnos.Models {
     public class AlumnoCE {
-        //DataAnnotations
+        //DataAnnotations - Validación en los campos de entrada
         [Required]
         [Display(Name = "Ingrese Nombres")]
         public string Nombre { get; set; }
@@ -22,6 +22,10 @@ namespace CRUD_Alumnos.Models {
         [Required]
         [Display(Name = "Ingrese Sexo")]
         public string Sexo { get; set; }
+
+        [Required]
+        [Display(Name = "Ingrese Ciudad")]
+        public int CodCiudad { get; set; }
     }
 
     [MetadataType(typeof(AlumnoCE))]

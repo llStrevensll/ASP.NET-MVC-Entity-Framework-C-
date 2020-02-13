@@ -22,6 +22,9 @@
             Sexo
         </th>
         <th>
+            Ciudad
+        </th>
+        <th>
             Fecha Registro
         </th>
         <th></th>
@@ -48,6 +51,9 @@
             }
         </td>
         <td>
+            @CRUD_Alumnos.Controllers.AlumnoController.NombreCiudad(item.CodCiudad)
+        </td>
+        <td>
             @item.FechaRegistro.ToShortDateString()
         </td>
         <td>
@@ -59,7 +65,7 @@
 }
 
 </table>
-
+<!--Ventana antes de eliminar registro-->
 @section scripts{
     <script>
         $(".aElimina").click(function (event) {

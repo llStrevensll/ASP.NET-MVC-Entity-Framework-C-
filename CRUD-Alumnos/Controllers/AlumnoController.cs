@@ -52,6 +52,7 @@ namespace CRUD_Alumnos.Controllers
             try {
                 using (AlumnosContext db = new AlumnosContext()) {//usar using para no dejar la conexion abierta
 
+                    //Asignar fecha actual al atributo fechaRegistro del objeto alumnos
                     alumnos.FechaRegistro = DateTime.Now;
 
                     db.Alumnos.Add(alumnos);//Adicionar alumnos
@@ -68,6 +69,15 @@ namespace CRUD_Alumnos.Controllers
             
             
         }
+
+        //Lista Ciudades
+        public ActionResult ListaCiudades() {
+            using(var db = new AlumnosContext()) {
+
+                return PartialView(db.Ciudad.ToList());
+            }
+        }
+
 
         //Get Editar
         [HttpGet]
@@ -94,7 +104,7 @@ namespace CRUD_Alumnos.Controllers
             if (!ModelState.IsValid) {
                 return View();
             }
-            try {
+            try {//using -> evitar dejar conexiones abiertas
                 using (var db = new AlumnosContext()) {
 
                     Alumnos alumnoDB = db.Alumnos.Find(alumnoForm.Id);//Buscar id
@@ -145,6 +155,13 @@ namespace CRUD_Alumnos.Controllers
             } catch (Exception error) {
                 ModelState.AddModelError("", "Error al editar Alumno");
                 return View();
+            }
+        }
+
+        public static string NombreCiudad(int CodCiudad) {
+
+            using (var db = new AlumnosContext()) {
+                return db.Ciudad.Find(CodCiudad).Nombre;
             }
         }
 
