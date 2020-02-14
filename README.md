@@ -4,7 +4,7 @@ ASP.NET MVC + Entity Framework - Alumnos-Ciudad
 ***App***
 Control-Alumnos
 
-**Manejo error token**
+
 <p align="center">
   <img src="https://github.com/llStrevensll/ASP.NET-MVC-Entity-Framework-C-/blob/master/images-git/app1.PNG?raw=true" alt="app1"/>
 </p>
