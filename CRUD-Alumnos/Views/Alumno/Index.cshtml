@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CRUD_Alumnos.Models.Alumnos>
+﻿@model IEnumerable<CRUD_Alumnos.Models.AlumnoCE>
 
 @{
     ViewBag.Title = "Lista Alumnos";
@@ -51,7 +51,8 @@
             }
         </td>
         <td>
-            @CRUD_Alumnos.Controllers.AlumnoController.NombreCiudad(item.CodCiudad)
+            @*@CRUD_Alumnos.Controllers.AlumnoController.NombreCiudad(item.CodCiudad)*@
+            @item.NombreCiudad
         </td>
         <td>
             @item.FechaRegistro.ToShortDateString()
@@ -65,7 +66,7 @@
 }
 
 </table>
-<!--Ventana antes de eliminar registro-->
+<!--Ventana antes de eliminar registro -->
 @section scripts{
     <script>
         $(".aElimina").click(function (event) {
